@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wolfcode.mapper.OrderInfoMapper" >
+  <select id="find" resultType="cn.wolfcode.domain.OrderInfo" >
+    select * from t_order_info where order_no = #{orderNo}
+  </select>
+  <select id="getByPhoneAndSecKillId" resultType="cn.wolfcode.domain.OrderInfo">
+    select * from t_order_info  where phone = #{userPhone} and seckill_id = #{seckillId}
+  </select>
+  <insert id="insert">
+    insert into t_order_info (order_no,phone,product_img,delivery_addr_id,product_name,product_price,seckill_price,status,create_date,pay_date,seckill_date,seckill_time,seckill_id,integral)
+            values
+            (#{orderNo},#{phone},#{productImg},#{deliveryAddrId},#{productName},#{productPrice},#{seckillPrice},#{status},#{createDate},#{payDate},#{seckillDate},#{seckillTime},#{seckillId},#{integral})
+  </insert>
+  <update id="changeOrderStatus">
+    update t_order_info set status = #{toStatus} where order_no= #{orderNo} and status = #{fromStatus}
+  </update>
+  <update id="changeOrderToPayStatus">
+    update t_order_info set status = #{toStatus},pay_date = now(),pay_type=#{payType} where order_no= #{orderNo} and status = #{fromStatus}
+  </update>
+</mapper>
